@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>Sami | Portfolio</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Sami's portfolio - Full-stack Developer, Ethical Hacker & Cybersecurity Specialist." />
+  <meta name="author" content="Sami" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- Google Fonts - Source Code Pro -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+  <style>
+    body {
+      font-family: 'Source Code Pro', monospace;
+      background-color: #0f111a;
+      color: #33ff33;
+      min-height: 100vh;
+      padding-top: 70px; /* navbar height */
+    }
+    a.nav-link {
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    a.nav-link:hover, a.nav-link.active {
+      color: #00ff00 !important;
+      text-shadow: 0 0 8px #00ff00;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 1.2px;
+      color: #33ff33 !important;
+      text-shadow: 0 0 12px #33ff33;
+      cursor: pointer;
+    }
+    .content {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand" href="/" aria-label="Homepage">Sami</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if '/about' in request.path %}active{% endif %}" href="/about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if '/projects' in request.path %}active{% endif %}" href="/projects">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if '/contact' in request.path %}active{% endif %}" href="/contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main role="main" class="content" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Simple Footer -->
+  <footer class="text-center text-light py-3 mt-auto" style="background-color: #121722; color: #33ff33; font-weight: 600; font-family: 'Source Code Pro', monospace;">
+    <small>© {{ current_year if current_year else 2025 }} Sami | All Rights Reserved</small>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+V5jXusIW1p5ELtBvKU0fN0tQ5sg" crossorigin="anonymous"></script>
+
+</body>
+</html>

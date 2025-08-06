@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    background-color: #0a1e5e; /* ডার্ক নীল ব্যাকগ্রাউন্ড */
+    color: #33ff33;
+    font-family: 'Source Code Pro', monospace;
+    overflow-x: hidden;
+    position: relative;
+  }
+  #matrix {
+    position: fixed;
+    z-index: -1;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0a1e5e;
+  }
+  .contact-hacker {
+    position: relative; /* matrix এর উপরে থাকবে */
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background: rgba(18, 23, 34, 0.15); /* হালকা ট্রান্সপারেন্ট নীল */
+    border: 2px solid #33ff33;
+    border-radius: 8px;
+    box-shadow:
+      0 0 15px #33ff33,
+      inset 0 0 20px #33ff33;
+    color: #33ff33;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .contact-hacker h2 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px #33ff33;
+    text-align: center;
+  }
+  .contact-hacker form {
+    display: flex;
+    flex-direction: column;
+  }
+  .contact-hacker input,
+  .contact-hacker textarea {
+    background: rgba(15, 17, 26, 0.7);
+    border: 1.5px solid #33ff33;
+    border-radius: 5px;
+    color: #33ff33;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1.1rem;
+    padding: 12px 15px;
+    margin-bottom: 1rem;
+    box-shadow: inset 0 0 8px rgba(0, 255, 0, 0.3);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .contact-hacker input::placeholder,
+  .contact-hacker textarea::placeholder {
+    color: #66ff66aa;
+  }
+  .contact-hacker input:focus,
+  .contact-hacker textarea:focus {
+    outline: none;
+    border-color: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+    background: rgba(17, 24, 30, 0.85);
+  }
+  .btn-hacker {
+    background: transparent;
+    border: 2px solid #33ff33;
+    color: #33ff33;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 10px 25px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .btn-hacker:hover {
+    background-color: #33ff33;
+    color: #0a1e5e;
+    box-shadow: 0 0 15px #33ff33;
+  }
+</style>
+
+<canvas id="matrix"></canvas>
+
+<div class="contact-hacker">
+  <h2>Contact Me</h2>
+  <form>
+    <input type="text" placeholder="Your Name" required autocomplete="off" />
+    <input type="email" placeholder="Your Email" required autocomplete="off" />
+    <textarea rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit" class="btn-hacker">Send Message</button>
+  </form>
+</div>
+
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  function draw() {
+    ctx.fillStyle = "rgba(10, 30, 94, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#7ec8ff"; // হালকা নীল matrix কোড
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 33);
+
+  window.addEventListener('resize', () => {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+  });
+</script>
+{% endblock %}

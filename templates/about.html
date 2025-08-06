@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    background-color: #0a1e5e; /* ডার্ক নীল ব্যাকগ্রাউন্ড */
+    color: #33ff33;
+    font-family: 'Source Code Pro', monospace;
+    overflow-x: hidden;
+    position: relative;
+  }
+  #matrix {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0a1e5e;
+  }
+  .about-container {
+  position: relative; /* matrix এর উপরে থাকবে */
+  max-width: 700px;
+  margin: 4rem auto 6rem;
+  padding: 2rem 2.5rem;
+  background: rgba(10, 30, 94, 0.15); /* আরও ট্রান্সপারেন্ট নীল */
+  border: 2px solid #33ff33;
+  border-radius: 10px;
+  box-shadow:
+    0 0 15px #33ff33,
+    inset 0 0 20px #33ff33;
+  color: #33ff33;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(6px);
+}
+  h2 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1.8rem;
+    text-align: center;
+    text-shadow: 0 0 12px #33ff33;
+    letter-spacing: 1.2px;
+  }
+  p.lead {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+  }
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .highlight {
+    color: #00ff00;
+    font-weight: 700;
+  }
+  em {
+    font-style: normal;
+    color: #66ff66;
+    font-weight: 600;
+  }
+  .btn-primary, .btn-outline-primary {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 10px 25px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin: 0 10px;
+  }
+  .btn-primary {
+    background-color: #33ff33;
+    color: #0a1e5e;
+    border: 2px solid #33ff33;
+  }
+  .btn-primary:hover {
+    background-color: #22cc22;
+    border-color: #22cc22;
+    box-shadow: 0 0 15px #22cc22;
+    color: #e0ffe0;
+  }
+  .btn-outline-primary {
+    background-color: transparent;
+    border: 2px solid #33ff33;
+    color: #33ff33;
+  }
+  .btn-outline-primary:hover {
+    background-color: #33ff33;
+    color: #0a1e5e;
+    box-shadow: 0 0 15px #33ff33;
+  }
+</style>
+
+<canvas id="matrix"></canvas>
+
+<div class="about-container">
+  <h2>About Me</h2>
+  <p class="lead">
+    I'm <strong>Sami</strong>, a passionate <span class="highlight">Full-Stack Developer</span> and <span class="highlight">Ethical Hacker</span> dedicated to creating <em>secure</em>, <em>modern</em>, and <em>attractive</em> web solutions.
+  </p>
+  <p>
+    With a strong background in Python, Flask, Django, JavaScript, and web security, I love solving complex problems and bringing ideas to life through code.  
+    I believe technology is a powerful tool to transform businesses and improve lives.
+  </p>
+  <p>
+    When I'm not coding, I enjoy exploring new cybersecurity techniques, learning emerging technologies, and sharing knowledge with the community.
+  </p>
+  
+  <div class="mt-4 text-center">
+    <a href="/projects" class="btn btn-primary">View My Projects</a>
+    <a href="/contact" class="btn btn-outline-primary">Get In Touch</a>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  function draw() {
+    ctx.fillStyle = "rgba(10, 30, 94, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#7ec8ff"; // হালকা নীল matrix কোড
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 33);
+
+  window.addEventListener('resize', () => {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+  });
+</script>
+{% endblock %}

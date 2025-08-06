@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    background-color: #0a1e5e;
+    color: #33ff33;
+    font-family: 'Source Code Pro', monospace;
+    overflow-x: hidden;
+  }
+  .profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #33ff33;
+    box-shadow: 0 0 15px #33ff33;
+    margin-bottom: 1.5rem;
+    object-fit: cover;
+  }
+  h1, h3 {
+    text-shadow: 0 0 10px #33ff33;
+  }
+  .highlight, .glitch {
+    color: #00ff00;
+    font-weight: 700;
+  }
+  .glitch {
+    animation: glitch 1s infinite;
+    position: relative;
+  }
+  @keyframes glitch {
+    0% { text-shadow: 2px 0 red, -2px 0 blue; }
+    20% { text-shadow: -2px 0 red, 2px 0 blue; }
+    40% { text-shadow: 2px 0 red, -2px 0 blue; }
+    60% { text-shadow: -2px 0 red, 2px 0 blue; }
+    80% { text-shadow: 2px 0 red, -2px 0 blue; }
+    100% { text-shadow: -2px 0 red, 2px 0 blue; }
+  }
+  .blinking-cursor {
+    font-weight: 100;
+    font-size: 24px;
+    color: #33ff33;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink {
+    0% { opacity: 1 }
+    50% { opacity: 0 }
+    100% { opacity: 1 }
+  }
+  .btn-custom, .badge, .social .btn {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 700;
+    border: 2px solid #33ff33;
+    color: #33ff33;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  .btn-custom {
+    background: transparent;
+    padding: 8px 20px;
+    margin: 0 6px 12px 6px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-custom:hover,
+  .badge:hover,
+  .social .btn:hover {
+    background-color: #00ff00;
+    color: #0a1e5e;
+    box-shadow: 0 0 20px #00ff00;
+  }
+  .skills {
+    margin-top: 3rem;
+    text-align: center;
+  }
+  .badge {
+    padding: 10px 18px;
+    font-size: 1rem;
+    margin: 0 8px 12px 8px;
+    background-color: transparent;
+    display: inline-block;
+    cursor: default;
+  }
+  .project-card {
+    background: #121722;
+    border: 2px solid #33ff33;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #33ff33, inset 0 0 15px #33ff33;
+    margin-bottom: 20px;
+    color: #33ff33;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px #00ff00, inset 0 0 20px #00ff00;
+  }
+  .card-title, .card-text {
+    font-family: 'Source Code Pro', monospace;
+  }
+  .social {
+    margin-top: 3rem;
+    text-align: center;
+  }
+  #matrix {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0a1e5e;
+  }
+</style>
+
+<canvas id="matrix"></canvas>
+<div class="text-center mt-5 pt-5">
+  <img src="{{ url_for('static', filename='images/sami_custom.png') }}" alt="Sami Profile" class="profile-img">
+  <h1 class="mt-4">Hi, I'm <span class="glitch">Sami</span></h1>
+  <p class="lead"><span id="typing-text"></span><span class="blinking-cursor">|</span></p>
+
+  <p class="mt-3">
+    I create secure, modern, and attractive web applications.<br>
+    Passionate about technology & solving real-world problems through coding.
+  </p>
+
+  <div class="mt-4">
+    <a href="/about" class="btn-custom">About Me</a>
+    <a href="/projects" class="btn-custom">Projects</a>
+    <a href="/contact" class="btn-custom">Contact</a>
+    <a href="/static/sami_cv.pdf" class="btn-custom" download>📄 Download CV</a>
+  </div>
+
+  <div class="skills mt-5">
+    <h3>My Skills</h3>
+    <div class="d-flex justify-content-center mt-3 flex-wrap">
+      <span class="badge">Python</span>
+      <span class="badge">Flask</span>
+      <span class="badge">Django</span>
+      <span class="badge">HTML & CSS</span>
+      <span class="badge">JavaScript</span>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <h3>Featured Projects</h3>
+    <div class="row mt-3 justify-content-center">
+      <div class="col-md-4">
+        <div class="card project-card">
+          <div class="card-body">
+            <h5 class="card-title">LoveBook</h5>
+            <p class="card-text">A romantic-themed social media platform.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card project-card">
+          <div class="card-body">
+            <h5 class="card-title">MoNexo</h5>
+            <p class="card-text">Multi-currency international e-commerce platform.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card project-card">
+          <div class="card-body">
+            <h5 class="card-title">InstaCash</h5>
+            <p class="card-text">Modern mobile banking style web app.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="social mt-5">
+    <a href="https://github.com/" class="btn btn-outline-light m-1">GitHub</a>
+    <a href="https://linkedin.com/" class="btn btn-outline-light m-1">LinkedIn</a>
+    <a href="https://www.facebook.com/sn.samiul.16" class="btn btn-outline-light m-1">Facebook</a>
+    <a href="https://wa.me/8801767668270" class="btn btn-outline-light m-1">WhatsApp</a>
+  </div>
+</div>
+
+<script>
+  const textArray = [
+    "Full-Stack Developer",
+    "Ethical Hacker",
+    "Cybersecurity Specialist",
+    "Code Crafter",
+    "Problem Solver"
+  ];
+  let i = 0, j = 0;
+  let currentText = "";
+  let isDeleting = false;
+  const typingSpeed = 100;
+  const delay = 1500;
+
+  function type() {
+    if (i < textArray.length) {
+      if (!isDeleting && j <= textArray[i].length) {
+        currentText = textArray[i].substring(0, j++);
+        document.getElementById("typing-text").innerHTML = currentText;
+        setTimeout(type, typingSpeed);
+      } else if (isDeleting && j >= 0) {
+        currentText = textArray[i].substring(0, j--);
+        document.getElementById("typing-text").innerHTML = currentText;
+        setTimeout(type, typingSpeed / 2);
+      } else {
+        isDeleting = !isDeleting;
+        if (!isDeleting) i = (i + 1) % textArray.length;
+        setTimeout(type, delay);
+      }
+    }
+  }
+  document.addEventListener("DOMContentLoaded", type);
+
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  function draw() {
+    ctx.fillStyle = "rgba(10, 30, 94, 0.05)"; // হালকা নীল ব্যাকগ্রাউন্ড ফেড
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#7ec8ff"; // matrix কোড লেটার লাইট নীল
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 33);
+</script>
+{% endblock %}
